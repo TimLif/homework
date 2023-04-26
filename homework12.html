@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="style1.css"> -->
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 400px;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            gap: 100px;
+            margin-left: 100px;
+        }
+
+        .square {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+        }
+
+
+        .bigSquare {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #000;
+            margin-top: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="square" style="background-color: greenyellow"></div>
+            <div class="square" style="background-color: red ;"></div>
+            <div class="square" style="background-color:blueviolet"></div>
+            <div class="square" style="background-color: rgb(0, 217, 255) ;"></div>
+        </div>
+        <div class="right">
+            <div class="bigSquare" style="background-color: rgb(133, 148, 136) ;"></div>
+        </div>
+    </div>
+    <script>
+        let cubics = document.querySelectorAll("div.square");
+        let bigSquare = document.querySelector(".bigSquare");
+
+        for (cubic of cubics) {
+            cubic.onmousedown = function (event) {
+                cubic = event.currentTarget;
+                cubic.style.position = "absolute";
+                document.addEventListener("mousemove", moveElement);
+                cubic.onmouseup = function () {
+                    document.removeEventListener("mousemove", moveElement);
+                    let cubic_top = cubic.getBoundingClientRect().top;
+                    let cubic_right = cubic.getBoundingClientRect().right;
+                    let cubic_bottom = cubic.getBoundingClientRect().bottom;
+                    let cubic_left = cubic.getBoundingClientRect().left;
+
+                    let bigSquare_top = bigSquare.getBoundingClientRect().top;
+                    let bigSquare_right = bigSquare.getBoundingClientRect().right;
+                    let bigSquare_bottom = bigSquare.getBoundingClientRect().bottom;
+                    let bigSquare_left = bigSquare.getBoundingClientRect().left;
+
+                    if (
+                        cubic_top > bigSquare_top &&
+                        cubic_right < bigSquare_right &&
+                        cubic_bottom < bigSquare_bottom &&
+                        cubic_left > bigSquare_left
+                    ) {
+                        bigSquare.style.backgroundColor = cubic.style.backgroundColor;
+
+                        cubic.hidden = true;
+                    };
+                }
+                function moveElement(event) {
+                    let x = event.clientX - 50;
+                    let y = event.clientY - 50;
+                    cubic.style.top = y + "px";
+                    cubic.style.left = x + "px";
+                };
+            };
+        }
+    </script>
+</body>
+
+</html>
